@@ -20,6 +20,11 @@
 - Postavená hlavne na dvoch frameworkov a to a-frame a three.js
 - Používa knižnicu artoolkit na vytváranie markerov
 - Podporuje všetky prehliadače (aj mobilne) podporujúce webgl a webrtc
+- Technológie: 
+  - Typescript
+  - eslint
+  - http-server
+  - nodejs
 - Využitie/prínos:
   - vďaka tejto funkcií može takmer každé novšie zariadenie využívať rozšírenu realitu rovno v prehliadači
 
@@ -34,7 +39,12 @@
 - Program na formatovanie kódu podporujuci jazyky ako Javascript, vue, HTML, Markdown ...
 - Monžnosť pridať ako rozšírenie do množstva editorov ako VSCode, Sublime Text ...
 - Obsahuje aj CLI rozhranie pre prácu so skriptom
-- Technológie: Javascript - node.js, Typescript
+- Technológie:
+  - Javascript node.js
+  - angular
+  - camel
+  - eslint
+  - Typescript
 - Využitie/prínos:
   - umožní uživatelovi udržiavať konvencie písania kódu, tým udržiavať kód lepšie čitatelným
   - učí nových programátorov návykom písať "čitateľné" kódy
@@ -54,9 +64,11 @@
 - Možnosť vytvorenia prezentácie len z Markdown kódu
 - Vytvorený taktiež visualna editacia platforma vo webowom prehliadači(platená služba)
 - Technológie:
-  - server - node.js
+  - server - node.js + express 
+  - grunt - task manager
   - dynamická vizualizácia d3.js
   - pridávanie grafov chart.js
+  - socket.io
 - Využitie/prínos:
   - tento nástroj umožní vytvárať nový typ prezentácií, ktorý sa výrazne líši od všedných pptx prezentácií
 
