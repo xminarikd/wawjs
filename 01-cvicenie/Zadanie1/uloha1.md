@@ -11,7 +11,7 @@
 
 - <https://github.com/jeromeetienne/AR.js?utm_source=mybridge&utm_medium=blog&utm_campaign=read_more>
 - <https://medium.com/swlh/ar-js-the-simplest-way-to-get-cross-browser-augmented-reality-on-the-web-10cbc721debc>
-- <img src="https://cdn.dribbble.com/users/503378/screenshots/3757952/watch-2.5.gif"  width="450" height="400" />
+- <img src="https://github.com/xminarikd/wawjs/blob/cvicenie1/01-cvicenie/Zadanie1/arjs.gif"  width="450" height="400" />
 
 ### Charakteristika
 
