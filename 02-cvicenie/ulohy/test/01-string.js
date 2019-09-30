@@ -1,45 +1,46 @@
 const assert = require("assert");
 
 describe("Exploratory tests - string", function() {
-
   it("String can be concatenated with + operator", function() {
     let a = "cats";
     let b = "dogs";
-    let c //= ....;
+    let c = a + " and " + b;
     assert.strictEqual(c, "cats and dogs");
   });
   it("String can be concatenated with templated literal", function() {
     let a = "cats";
     let b = "dogs";
-    let c //=....;
+    let c = `${a} and ${b}`;
     assert.strictEqual(c, "cats and dogs");
   });
   it("Pad all strings to size of longest", function() {
     const strings = ["a", "bb", "ccc"];
     let result;
-    // ....
-    // ....
-    // ....
-    // ....
+    let longest = strings.reduce(function(a, b) {
+      return a.length > b.length ? a : b;
+    });
+    longest = longest.length;
+    result = strings.map(value => value.padStart(longest));
     assert.deepStrictEqual(result, ["  a", " bb", "ccc"]);
   });
   it("replace all animals in sentence", function() {
     const sentence = "cats ignore dogs";
-    let result;//=... 
+    let result;
+    result = sentence.replace(/cats|dogs/gi, "");
+
     assert.strictEqual(result, " ignore ");
   });
   it("codepoints length", function() {
-    let cow="big 🐄";
-    assert(cow.length===6);
-    
-    function lengthCp(str){
-      //return TODO: implement method return string length 
-      // in codepoints, not in characters
+    let cow = "big 🐄";
+    assert(cow.length === 6);
+
+    function lengthCp(str) {
+      return Array.from(str).length;
     }
-    assert(lengthCp(cow)===5);
+    assert(lengthCp(cow) === 5);
   });
 
-/* Play with other APIs
+  /* Play with other APIs
 construct 
   String.prototype.constructor()
   String.raw()
