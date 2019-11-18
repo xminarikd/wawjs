@@ -1,10 +1,9 @@
 const fs = require("fs").promises;
-const path = require("path")
+const path = require("path");
 
-module.exports = lsRescursive
+module.exports = lsRescursive;
 
 function lsRescursive(dirName) {
-
   return ls(dirName)
     .then(dirsOnly)
     .then(dirs => dirs.map(({ name }) => name))
@@ -13,9 +12,7 @@ function lsRescursive(dirName) {
     .then(files => Promise.all(files)) // Promise of [] of []s
     .then(files => [].concat(...files)) // [[],[],...]-> [.,.,.]
     .then(filesOnly)
-    .then((files) =>
-      files.map(({ name }) => name)
-    )
+    .then(files => files.map(({ name }) => name));
 }
 
 function ls(dirName) {
@@ -25,9 +22,9 @@ function ls(dirName) {
 }
 
 function dirsOnly(files) {
-  return files.filter((f) => f.isDirectory());
+  return files.filter(f => f.isDirectory());
 }
 
 function filesOnly(files) {
-  return files.filter((f) => f.isFile());
+  return files.filter(f => f.isFile());
 }

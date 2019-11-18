@@ -27,4 +27,13 @@
 const randomGroup = () => ["a", "b"][Math.round(Math.random())];
 const newStudent = () => (s, i) => ({ id: i grp: randomGroup })
 const randomStudents = () => Array.from({ length: 5 }, newStudent);
-const students2 =
+//const students2 =
+
+
+[1,2,2,4,5].reduce((r,n) =>{
+  r.add(n);
+  return r;
+}, new Set());
+
+
+[1,2,2,4,5].reduce((r,n) => (r.add(n), r), new Set());

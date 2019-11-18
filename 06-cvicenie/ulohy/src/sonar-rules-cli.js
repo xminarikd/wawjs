@@ -23,33 +23,62 @@ d) parameters (queryes)
 
 */
 
-const [, ,
-  URL = 'https://gazelle.ihe.net/sonar/api/rules/search?languages=js'
+const [
+  ,
+  ,
+  URL = "https://gazelle.ihe.net/sonar/api/rules/search?languages=js"
 ] = process.argv;
 
 const { doWhilst } = require("async");
 const debug = require("debug")("");
-const request = require("request")
-  .defaults({ json: true });
-
+const request = require("request").defaults({ json: true });
 
 let pageIndex = 0;
 const results = [];
+
+function getTotal(cb) {
+  request(`${URL}&pageIndex=${pageIndex + 1}`, (err, resp, data) => {
+    cb(null, data.total);
+  });
+}
+
+request(url, (err, _, {total, pageSize})=>{
+  cb(null, {total, pageSize})
+})
+
+const pageCount = 
+
+const urls = Array.from(Array(pageCounts), (_, x) => x)
+  .map(num => num + 1)
+  .map(index => `${URL}&pageIndex=${index}`);
+
+async.waterfall(
+  [
+    getTotal,
+    async.asyncify(getPageCount),
+
+    (total, cb) => {
+      async.concat(urls(total), getPages, cb);
+    }
+  ],
+  print
+);
+
+/*
+async.sequence([getTotal, buailPages, async.parallel]);
 
 doWhilst(
   function _do(done) {
     const url = `${URL}&pageIndex=${pageIndex + 1}`;
     debug("_do", url);
-    request(url,
-      (err, response, result) => {
-        if (err || response.statusCode !== 200)
-          return done(err || new Error(statusCode));
-        results.push(...result.rules);
-        pageIndex++;
-        debug("do.done", pageIndex, results.length);
-        done(null, result);
-      }
-    );
+    request(url, (err, response, result) => {
+      if (err || response.statusCode !== 200)
+        return done(err || new Error(statusCode));
+      results.push(...result.rules);
+      pageIndex++;
+      debug("do.done", pageIndex, results.length);
+      done(null, result);
+    });
   },
   function _while(result, cb) {
     let { p, ps, total } = result;
@@ -63,3 +92,4 @@ doWhilst(
     console.log(JSON.stringify(results, null, 2));
   }
 );
+*/
