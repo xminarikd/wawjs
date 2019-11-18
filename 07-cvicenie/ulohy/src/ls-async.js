@@ -3,6 +3,7 @@ const path = require("path");
 
 module.exports = lsRescursive;
 
+<<<<<<< HEAD
 async function lsRescursive(dirName) {
   let dirs = await ls(dirName);
   dirs = dirsOnly(dirs).map(({ name }) => name);
@@ -15,6 +16,21 @@ async function lsRescursive(dirName) {
   files = files.map(({ name }) => name);
   console.log(files);
   return files;
+=======
+function lsRescursive(dirName) {
+
+  return ls(dirName)
+    // .then(dirsOnly)
+    // .then(dirs => dirs.map(({ name }) => name))
+    // .then(dirs => dirs.map(name => path.resolve(dirName, name)))
+    // .then(dirs => dirs.map(ls)) // [] of Promises of []s
+    // .then(files => Promise.all(files)) // Promise of [] of []s
+    // .then(files => [].concat(...files)) // [[],[],...]-> [.,.,.]
+    // .then(filesOnly)
+    // .then((files) =>
+    //   files.map(({ name }) => name)
+    // )
+>>>>>>> upstream/master
 }
 
 async function ls(dirName) {

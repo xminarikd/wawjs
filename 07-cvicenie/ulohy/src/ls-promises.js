@@ -10,7 +10,7 @@ function lsRescursive(dirName) {
     .then(dirs => dirs.map(name => path.resolve(dirName, name)))
     .then(dirs => dirs.map(ls)) // [] of Promises of []s
     .then(files => Promise.all(files)) // Promise of [] of []s
-    .then(files => [].concat(...files)) // [[],[],...]-> [.,.,.]
+    .then(files => [...files]) // [[],[],...]-> [.,.,.]
     .then(filesOnly)
     .then(files => files.map(({ name }) => name));
 }
