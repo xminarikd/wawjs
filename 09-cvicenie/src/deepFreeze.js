@@ -1,31 +1,54 @@
-'use strict'
+"use strict";
 const traverse = require("traverse");
 
+// module.exports = function(o) {
+//   traverse.forEach(o, function() {
+//     this.post(({ node }) => Object.freeze(node));
+//   });
+//   return o;
+// };
+
 module.exports = function(o) {
-  traverse.forEach(o, function() {
-    this.post(({ node }) => Object.freeze(node));
+  let a = traverse(o).map(function(x) {
+    //console.log(this.node);
+    if (isPrimitive(this.node)) this.node = undefined;
   });
-  return o;
+  console.log(a);
+  return a;
+};
+
+function isPrimitive(arg) {
+  return arg == null || (typeof arg !== "object" && typeof arg !== "function");
 }
+
 //-------------------------- tests ----------------------------------------
-process.env.SELF_TEST && ((deepFreeze) => {
-  console.error(`[self test]:${__filename}:...`)
+process.env.SELF_TEST &&
+  (deepFreeze => {
+    console.error(`[self test]:${__filename}:...`);
 
+    var assert = require("assert");
 
-  var assert = require("assert");
+    let o = {
+      a: function() {},
+      b: 2,
+      c: { d: 3, e: function() {} },
+      f: [1, "string", 3]
+    };
 
-  let o = { a: 1, b: 2, c: { d: 3, e: 4 }, f: [1, 2, 3] }
+    // let o2 = {
+    //   a: function() {},
+    //   c: { e: function() {} },
+    //   f: []
+    // };
 
-  let o1 = deepFreeze(o);
+    let o1 = deepFreeze(o);
+    console.log(o);
 
-  assert(o1 === o);
+    //assert.deepEqual(o1, o2);
+    //assert(o1 === o);
 
-  assert.throws(() => o.c.d = 999,
-    /Cannot assign to read only property/
-  );
-  assert.throws(() => o.f.pop(),
-    /Cannot delete property/
-  );
+    //assert.throws(() => (o.c.d = 999), /Cannot assign to read only property/);
+    //assert.throws(() => o.f.pop(), /Cannot delete property/);
 
-  console.error(`[self test]:${__filename}:OK`)
-})(module.exports);
+    console.error(`[self test]:${__filename}:OK`);
+  })(module.exports);

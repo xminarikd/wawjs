@@ -1,68 +1,75 @@
-const and = (f1, ...fns) => x => !!fns.reduce(
-  (r, fn) => r = r && fn(x),
-  f1(x)
-);
+// const and = (f1, ...fns) => x => !!fns.reduce(
+//   (r, fn) => r = r && fn(x),
+//   f1(x)
+// );
 
 // TODO: reimplement using recursion
 // and quick exit, avoid useles loop of whole array
 
+const and = (f1, ...fns) => x => {
+  return !f1 ? true : f1(x) && and(...fns)(x);
+  // if (!f1) {
+  //   return true;
+  // } else return f1(x) && and(...fns)(x);
+};
+
 module.exports = and;
 
 //-------------------------- tests ----------------------------------------
-process.env.SELF_TEST && ((and) => {
-  console.error(`[self test]:${__filename}:...`)
+process.env.SELF_TEST &&
+  (and => {
+    console.error(`[self test]:${__filename}:...`);
 
+    var assert = console.assert.bind(console);
 
-  var assert = console.assert.bind(console);
+    let composed = and(
+      () => true,
+      () => true
+    );
+    assert(typeof composed === "function");
 
-  let composed = and(
-    () => true,
-    () => true
-  );
-  assert(typeof composed === "function");
+    assert(composed() == true);
 
-  assert(composed() == true);
+    assert(
+      and(
+        () => false,
+        () => true
+      )() === false
+    );
 
+    assert(
+      and(
+        i => i < 10,
+        i => i < 5
+      )(4) === true
+    );
 
-  assert(and(
-    () => false,
-    () => true
-  )() === false);
+    assert(
+      and(
+        i => i < 10,
+        i => i < 5
+      )(12) === false
+    );
 
-  assert(and(
-    (i) => i < 10,
-    (i) => i < 5
-  )(4) === true);
+    assert(and(() => false)() === false, "shall work with one arg");
 
-  assert(and(
-    (i) => i < 10,
-    (i) => i < 5
-  )(12) === false)
+    assert(and(() => "whatever")() === true, "shall coerce");
 
-  assert(and(
-    () => false
-  )() === false, "shall work with one arg");
+    let c = 0;
+    and(
+      () => true,
+      () => false,
+      () => (c = 1) // this shall never execure
+    )();
+    assert(c === 0);
 
-  assert(and(
-    () => "whatever"
-  )() === true, "shall coerce");
+    let c2 = 0;
+    and(
+      () => ++c, //return truthy 1
+      () => ++c, //return truthy 2
+      () => ++c //return truthy 3
+    )();
+    assert(c === 3, "all 'true' methods called");
 
-  let c = 0;
-  and(
-    () => true,
-    () => false,
-    () => c = 1 // this shall never execure
-  )();
-  assert(c === 0);
-
-  let c2 = 0;
-  and(
-    () => ++c, //return truthy 1
-    () => ++c, //return truthy 2
-    () => ++c //return truthy 3
-  )();
-  assert(c === 3, "all 'true' methods called");
-
-  console.error(`[self test]:${__filename}:OK`)
-
-})(module.exports);
+    console.error(`[self test]:${__filename}:OK`);
+  })(module.exports);
