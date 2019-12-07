@@ -3,12 +3,12 @@ const bom = require("../../src/bom");
 const assert = require("assert");
 const fs = require("fs");
 
-describe("BOM and fs.createReadStream", function() {
+describe("BOM and fs.createReadStream", function () {
 
 
   const bomBuffer = Buffer.from([0xEF, 0xBB, 0xBF])
 
-  it("BOM preserved in Buffer interface", function(done) {
+  it("BOM preserved in Buffer interface", function (done) {
 
     let file = `${__dirname}/data/with-bom.txt`;
     //content of the file is: // with
@@ -29,24 +29,26 @@ describe("BOM and fs.createReadStream", function() {
       })
   });
 
-  it("BOM preserved in string interface", function(done) {
+  it("BOM preserved in string interface", function (done) {
 
     let file = `${__dirname}/data/with-bom.txt`;
     //content of the file is: // with
-    fs.createReadStream(file, { encoding: "utf8" })
+    fs.createReadStream(file, {
+        encoding: "utf8"
+      })
       .on("error", done)
       .on("end", done)
       .once("data", (chunk) => {
 
         assert(typeof chunk === "string");
-        
-        const content="// with"; // length:7
-        assert.equal(content.length,7);
-        
+
+        const content = "// with"; // length:7
+        assert.equal(content.length, 7);
+
         assert.notEqual(chunk, content);
 
-        assert.equal(chunk.length,8);
-        assert.equal(chunk[0],'\uFEFF');
+        assert.equal(chunk.length, 8);
+        assert.equal(chunk[0], '\uFEFF');
       });
   });
 });

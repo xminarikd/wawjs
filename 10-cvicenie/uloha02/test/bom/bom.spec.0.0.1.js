@@ -3,13 +3,13 @@ const bom = require("../../src/bom");
 const assert = require("assert");
 const fs = require("fs");
 
-describe("bom.js tests", function() {
+describe("bom.js tests", function () {
 
 
   const bomBuffer = Buffer.from([0xEF, 0xBB, 0xBF])
 
   // 3. define first test
-  it("add bom - shell add bom to file", function(done) {
+  it("add bom - shell add bom to file", function (done) {
 
     // collect all chunks, for asserts
     var chunks = [];
@@ -25,7 +25,7 @@ describe("bom.js tests", function() {
       .on("finish", () => {
 
         let chunk = Buffer.concat(chunks);
-  
+
         assert(Buffer.isBuffer(chunk));
         assert.equal(chunk.indexOf(bomBuffer), 0);
         assert.equal(chunk[3], 0x2f);
@@ -33,4 +33,30 @@ describe("bom.js tests", function() {
         done();
       })
   });
+
+  it("remove bom - shell remove bom from file", function (done) {
+
+    // collect all chunks, for asserts
+    var chunks = [];
+
+    // 4. create sample files
+    let file = `${__dirname}/data/with-bom.txt`;
+    fs.createReadStream(file)
+      // !!!
+      .pipe(bom.remove())
+      // !!!
+      .on("error", done)
+      .on("data", (chunk) => chunks.push(chunk))
+      .on("finish", () => {
+
+        let chunk = Buffer.concat(chunks);
+
+        assert(Buffer.isBuffer(chunk));
+        assert.equal(!chunk.indexOf(bomBuffer), 0);
+        assert.equal(chunk[1], 0x2f);
+        assert.equal(chunk.length, 7); //data
+        done();
+      })
+  });
+
 });
