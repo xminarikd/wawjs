@@ -27,7 +27,7 @@ describe("bom.js tests", function () {
       });
   });
 
-  it("remove bom - shell not remove from empty file", function (done) {
+  it("remove bom - shall not remove from empty file", function (done) {
 
     var chunks = [];
 
@@ -40,7 +40,7 @@ describe("bom.js tests", function () {
 
         let chunk = Buffer.concat(chunks);
 
-        assert.equal(!chunk.indexOf(bomBuffer), 0);
+        assert.equal(chunk.indexOf(bomBuffer), -1);
         assert.equal(chunk.length, 0);
 
         done();

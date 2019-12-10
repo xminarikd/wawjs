@@ -31,7 +31,7 @@ describe("bom.js tests", function () {
       });
   });
 
-  it("remove bom - shell NOT remove non-existent bom", (done) => {
+  it("remove bom - shall NOT remove non-existent bom", (done) => {
 
     var chunks = [];
 

@@ -7,7 +7,7 @@ describe("bom.js tests", function () {
 
   const bomBuffer = Buffer.from([0xEF, 0xBB, 0xBF])
 
-  it("add bom - shell work with arbitrary chunks sizes", (done) => {
+  it("add bom - shall work with arbitrary chunks sizes", (done) => {
 
     var chunks = [];
 

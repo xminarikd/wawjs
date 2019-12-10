@@ -34,7 +34,7 @@ describe("bom.js tests", function () {
       })
   });
 
-  it("remove bom - shell remove bom from file", function (done) {
+  it("remove bom - shall remove bom from file", function (done) {
 
     // collect all chunks, for asserts
     var chunks = [];
@@ -52,9 +52,9 @@ describe("bom.js tests", function () {
         let chunk = Buffer.concat(chunks);
 
         assert(Buffer.isBuffer(chunk));
-        assert.equal(!chunk.indexOf(bomBuffer), 0);
+        assert.equal(chunk.indexOf(bomBuffer), -1);
         assert.equal(chunk[1], 0x2f);
-        assert.equal(chunk.length, 7); //data
+        assert.equal(chunk.length, 10 - 3); //data - bom
         done();
       })
   });

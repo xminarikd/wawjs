@@ -1,0 +1,17 @@
+{
+  "name": "build_in_streams",
+  "version": "1.0.0",
+  "description": "Uloha 01 - project",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --color test/zip-server.spec.js"
+  },
+  "author": "xminarikd",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  }
+}
