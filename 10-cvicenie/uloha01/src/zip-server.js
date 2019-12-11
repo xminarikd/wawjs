@@ -9,39 +9,41 @@ const myServer = (path) => {
 
     return http.createServer((req, res) => {
 
-        let fileDir = `${path}/serverFile`;
-        fs.existsSync(fileDir) || fs.mkdirSync(fileDir);
-        const filename = req.headers['filename'];
-        const writeStream = fs.createWriteStream(`${fileDir}/${filename}`);
+            let fileDir = `${path}/serverFile`;
+            fs.existsSync(fileDir) || fs.mkdirSync(fileDir);
+            const filename = req.headers['filename'];
+            const writeStream = fs.createWriteStream(`${fileDir}/${filename}`);
 
-        pipeline(
-            req,
-            writeStream,
-            (err) => {
-                if (err) {
-                    console.debug('Pipeline failed', err);
-                } else {
-                    console.log('Zapísane na servery');
+
+            pipeline(
+                req,
+                writeStream,
+                (err) => {
+                    if (err) {
+                        console.debug('Pipeline failed - closing writestream');
+                    }
                 }
-            }
-        );
+            );
 
-        pipeline(req,
-            zlib.createGzip(),
-            res,
-            (err) => {
-                if (err) {
-                    console.debug('Pipeline failed', err);
-                } else {
-                    console.log('Zip sended');
+            pipeline(
+                req,
+                zlib.createGzip(),
+                res,
+                (err) => {
+                    if (err) {
+                        console.debug('Pipeline failed - closing zlib, res');
+                    }
                 }
-            }
-        );
+            );
 
-    })
-    .on('error', err => {
-        return console.debug('ERROR: create server', err);
-    });
+            writeStream.on('close', () => {
+                console.debug('SERVER: writestream is closed');
+            })
+
+        })
+        .on('error', err => {
+            return console.debug('ERROR: create server', err);
+        });
 }
 
 module.exports = myServer;

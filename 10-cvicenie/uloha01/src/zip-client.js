@@ -11,6 +11,7 @@ const myClient = (port, filePath) => {
         host: 'localhost',
         port,
         method: 'POST',
+        timeout: 1500
     });
 
     //https://nodejs.org/api/fs.html#fs_fs_existssync_path
@@ -43,6 +44,23 @@ const myClient = (port, filePath) => {
                 }
             }
         );
+    });
+
+    request.on('close', () => {
+        console.debug("req got closed!");
+    });
+
+    request.on('timeout', function () {
+        console.log("timeout! " + (request.timeout / 1000) + " seconds expired");
+        request.destroy();
+    });
+
+    request.on('error', function (e) {
+        if (request.connection.destroyed) {
+            console.log("got error, req.destroy() was called!");
+            return;
+        }
+        console.debug("Request error - req not destroyed! ", e);
     });
 
     return request;

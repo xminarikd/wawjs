@@ -6,7 +6,7 @@ const path = require('path');
 const {
     finished
 } = require("stream");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3030;
 const file = process.argv[2] || "./test/testFile.txt";
 
 
