@@ -32,6 +32,8 @@ const myServer = (path) => {
                 (err) => {
                     if (err) {
                         console.debug('Pipeline failed - closing zlib, res');
+                        res.statusCode = 500;
+                        res.end();
                     }
                 }
             );
